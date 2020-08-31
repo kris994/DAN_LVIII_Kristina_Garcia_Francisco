@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Threading;
 
 namespace DAN_LVIII_Kristina_Garcia_Francisco.Model
 {
@@ -7,7 +9,11 @@ namespace DAN_LVIII_Kristina_Garcia_Francisco.Model
     /// </summary>
     class TicTacToe
     {
-        //Checking that any player has won or not
+        /// <summary>
+        /// Checking winner conditions
+        /// </summary>
+        /// <param name="arr">current array</param>
+        /// <returns>Current state</returns>
         public int CheckWin(char[] arr)
         {
             #region Horzontal Winning Condtion
@@ -75,6 +81,29 @@ namespace DAN_LVIII_Kristina_Garcia_Francisco.Model
             {
                 return 0;
             }
+        }
+
+        /// <summary>
+        /// The computer selects one of the available fields
+        /// </summary>
+        /// <param name="arr">The array list of fields</param>
+        /// <returns>The selected field</returns>
+        public int ComputerSelectField(char[] arr)
+        {
+            Random rng = new Random();
+            bool isAvailable = false;
+            int selectedField = 0;
+
+            do
+            {
+                selectedField = rng.Next(0, 9);
+                if (arr[selectedField] == '\0')
+                {
+                    isAvailable = true;
+                }
+            } while (isAvailable == false);
+
+            return selectedField;
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using DAN_LVIII_Kristina_Garcia_Francisco.Command;
 using DAN_LVIII_Kristina_Garcia_Francisco.Model;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -17,9 +19,13 @@ namespace DAN_LVIII_Kristina_Garcia_Francisco.ViewModel
         /// </summary>
         private char[] currentResults = new char[9];
         /// <summary>
+        /// Checks if player is playing
+        /// </summary>
+        private bool IsPlayerTurn = true;
+        /// <summary>
         /// Checks who starts first
         /// </summary>
-        private bool playerFirst = false;
+        private bool FirstPlayer = true;
         /// <summary>
         /// Player order
         /// </summary>
@@ -62,13 +68,28 @@ namespace DAN_LVIII_Kristina_Garcia_Francisco.ViewModel
         /// </summary>
         private void GameExecute(object sender)
         {
-            // Get the selected cell number
-            int number = int.Parse(sender.ToString().Substring((sender.ToString().Length - 1)));
-            // Get the button
-            Button btn = GetButton(sender.ToString());
+            int number = 0;
+            Button btn = null;
+            string nextPlayer = "";
+
+            if (IsPlayerTurn == true)
+            {
+                // Get the selected cell number
+                number = int.Parse(sender.ToString().Substring((sender.ToString().Length - 1)));
+                // Get the button
+                btn = GetButton(sender.ToString());
+                IsPlayerTurn = false;
+            }
+            else
+            {
+                Task<int> computerTurn = Task.Run(() => ticTacToe.ComputerSelectField(currentResults));
+                number = computerTurn.Result;
+                btn = GetButton("Button" + number);
+                IsPlayerTurn = true;
+            }
+
             // Check result
             int result = 0;
-
             orderNumber++;
             if (orderNumber % 2 == 0)
             {
@@ -83,18 +104,53 @@ namespace DAN_LVIII_Kristina_Garcia_Francisco.ViewModel
                 btn.IsEnabled = false;
             }
 
+            // Check if there was a winner
             result = ticTacToe.CheckWin(currentResults);
-            string winnerMark = orderNumber % 2 == 0 ? "O" : "X";
+            string currentMark = orderNumber % 2 == 0 ? "O" : "X";
 
             if (result == 1)
             {
-                Xceed.Wpf.Toolkit.MessageBox.Show($"The winner is: {winnerMark}", "Close", MessageBoxButton.OK, MessageBoxImage.Warning);
+                // Select who starts next the match
+                if (FirstPlayer == true)
+                {
+                    nextPlayer = "Computer";
+                    IsPlayerTurn = false;
+                    FirstPlayer = false;
+                }
+                else
+                {
+                    nextPlayer = "Player";
+                    IsPlayerTurn = true;
+                    FirstPlayer = true;
+                }
+
+                Xceed.Wpf.Toolkit.MessageBox.Show($"The winner is: {currentMark}!\n{nextPlayer} starts first.", "Close", MessageBoxButton.OK, MessageBoxImage.Warning);
                 RestartBoard();
+                
             }
             else if (result == -1)
             {
-                Xceed.Wpf.Toolkit.MessageBox.Show("There is no winner!", "Close", MessageBoxButton.OK, MessageBoxImage.Warning);
+                // Select who starts next the match
+                if (FirstPlayer == true)
+                {
+                    nextPlayer = "Computer";
+                    IsPlayerTurn = false;
+                    FirstPlayer = false;
+                }
+                else
+                {
+                    nextPlayer = "Player";
+                    IsPlayerTurn = true;
+                    FirstPlayer = true;
+                }
+                Xceed.Wpf.Toolkit.MessageBox.Show($"There is no winner!\n{nextPlayer} starts first.", "Close", MessageBoxButton.OK, MessageBoxImage.Warning);
                 RestartBoard();
+            }
+
+            // If its not players turn, let the computer play
+            if (IsPlayerTurn == false)
+            {                
+                GameExecute(sender);
             }
         }
 
@@ -107,7 +163,6 @@ namespace DAN_LVIII_Kristina_Garcia_Francisco.ViewModel
             return true;
         }
         #endregion
-
 
         /// <summary>
         /// Gets the button that was pressed
