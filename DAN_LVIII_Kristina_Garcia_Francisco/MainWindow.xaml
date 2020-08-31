@@ -5,8 +5,37 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DAN_LVIII_Kristina_Garcia_Francisco"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Tic-Tac-Toe" Height="600" Width="600"
+        ResizeMode="NoResize"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="White"></Setter>
+            <Setter Property="BorderThickness" Value="0.5"></Setter>
+            <Setter Property="FontSize" Value="70"></Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Button x:Name="Button0" Grid.Column="0" Grid.Row="0" Height="Auto" Content="" Command="{Binding Game, UpdateSourceTrigger=PropertyChanged}" CommandParameter="Button0"/>
+        <Button x:Name="Button1" Grid.Column="0" Grid.Row="1" Height="Auto" Content="" Command="{Binding Game, UpdateSourceTrigger=PropertyChanged}" CommandParameter="Button1"/>
+        <Button x:Name="Button2" Grid.Column="0" Grid.Row="2" Height="Auto" Content="" Command="{Binding Game, UpdateSourceTrigger=PropertyChanged}" CommandParameter="Button2"/>
+        <Button x:Name="Button3" Grid.Column="1" Grid.Row="0" Height="Auto" Content="" Command="{Binding Game, UpdateSourceTrigger=PropertyChanged}" CommandParameter="Button3"/>
+        <Button x:Name="Button4" Grid.Column="1" Grid.Row="1" Height="Auto" Content="" Command="{Binding Game, UpdateSourceTrigger=PropertyChanged}" CommandParameter="Button4"/>
+        <Button x:Name="Button5" Grid.Column="1" Grid.Row="2" Height="Auto" Content="" Command="{Binding Game, UpdateSourceTrigger=PropertyChanged}" CommandParameter="Button5"/>
+        <Button x:Name="Button6" Grid.Column="3" Grid.Row="0" Height="Auto" Content="" Command="{Binding Game, UpdateSourceTrigger=PropertyChanged}" CommandParameter="Button6"/>
+        <Button x:Name="Button7" Grid.Column="3" Grid.Row="1" Height="Auto" Content="" Command="{Binding Game, UpdateSourceTrigger=PropertyChanged}" CommandParameter="Button7"/>
+        <Button x:Name="Button8" Grid.Column="3" Grid.Row="2" Height="Auto" Content="" Command="{Binding Game, UpdateSourceTrigger=PropertyChanged}" CommandParameter="Button8"/>
     </Grid>
 </Window>
