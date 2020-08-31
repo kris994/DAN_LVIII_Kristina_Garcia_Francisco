@@ -1,6 +1,5 @@
 ﻿using DAN_LVIII_Kristina_Garcia_Francisco.ViewModel;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace DAN_LVIII_Kristina_Garcia_Francisco
 {
@@ -9,6 +8,9 @@ namespace DAN_LVIII_Kristina_Garcia_Francisco
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// Main window
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
