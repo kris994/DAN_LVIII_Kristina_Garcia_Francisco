@@ -1,6 +1,5 @@
 ﻿using DAN_LVIII_Kristina_Garcia_Francisco.Command;
 using DAN_LVIII_Kristina_Garcia_Francisco.Model;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,6 +9,7 @@ namespace DAN_LVIII_Kristina_Garcia_Francisco.ViewModel
 {
     class MainWindowViewModel : ViewModelBase
     {
+        #region Variables
         /// <summary>
         /// Main Window
         /// </summary>
@@ -27,14 +27,15 @@ namespace DAN_LVIII_Kristina_Garcia_Francisco.ViewModel
         /// </summary>
         private bool FirstPlayer = true;
         /// <summary>
-        /// Player order
+        /// Game order
         /// </summary>
         int orderNumber = 0;
         /// <summary>
         /// Get the model
         /// </summary>
         TicTacToe ticTacToe = new TicTacToe();
-   
+        #endregion
+
         #region Constructor
         /// <summary>
         /// Opens the main window
@@ -72,6 +73,7 @@ namespace DAN_LVIII_Kristina_Garcia_Francisco.ViewModel
             Button btn = null;
             string nextPlayer = "";
 
+            // Checks who is currently playing
             if (IsPlayerTurn == true)
             {
                 // Get the selected cell number
@@ -82,15 +84,19 @@ namespace DAN_LVIII_Kristina_Garcia_Francisco.ViewModel
             }
             else
             {
+                // Get the computer selected number
                 Task<int> computerTurn = Task.Run(() => ticTacToe.ComputerSelectField(currentResults));
                 number = computerTurn.Result;
+                // Get the button with that name
                 btn = GetButton("Button" + number);
                 IsPlayerTurn = true;
             }
 
             // Check result
             int result = 0;
+            // Current game order
             orderNumber++;
+            // Even numbers are saved as 'O', while odds are saved as 'X', the button content gets updated with that value and disabled.
             if (orderNumber % 2 == 0)
             {
                 currentResults[number] = 'O';
@@ -108,6 +114,7 @@ namespace DAN_LVIII_Kristina_Garcia_Francisco.ViewModel
             result = ticTacToe.CheckWin(currentResults);
             string currentMark = orderNumber % 2 == 0 ? "O" : "X";
 
+            // There is a winner
             if (result == 1)
             {
                 // Select who starts next the match
@@ -128,6 +135,7 @@ namespace DAN_LVIII_Kristina_Garcia_Francisco.ViewModel
                 RestartBoard();
                 
             }
+            // No winnder
             else if (result == -1)
             {
                 // Select who starts next the match

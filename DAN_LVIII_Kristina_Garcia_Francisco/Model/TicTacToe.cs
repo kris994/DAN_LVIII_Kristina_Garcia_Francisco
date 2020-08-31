@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Threading;
 
 namespace DAN_LVIII_Kristina_Garcia_Francisco.Model
 {
@@ -18,7 +16,7 @@ namespace DAN_LVIII_Kristina_Garcia_Francisco.Model
         {
             #region Horzontal Winning Condtion
             //Winning Condition For First Row 
-            if (arr[0] == arr[1] && arr[1] == arr[2] && arr[0]+ arr[1]+ arr[2] != 0)
+            if (arr[0] == arr[1] && arr[1] == arr[2] && arr[0] + arr[1] + arr[2] != 0)
             {
                 return 1;
             }
